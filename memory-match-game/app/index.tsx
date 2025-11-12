@@ -331,3 +331,4 @@ const styles = StyleSheet.create({
   splashContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0B0C10' },
   logo: { width: 200, height: 200, resizeMode: 'contain', borderRadius: 100 },
 });
+
