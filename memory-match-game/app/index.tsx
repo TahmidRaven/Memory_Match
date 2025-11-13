@@ -1,5 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator, Modal, Button, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  ActivityIndicator,
+  Modal,
+  Button,
+  Animated,
+} from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,7 +26,75 @@ const allIcons = [
   require('../assets/characters/icons8-baby-yoda-500.png'),
   require('../assets/characters/icons8-baratheon-house-500.png'),
   require('../assets/characters/icons8-batman-500.png'),
+  require('../assets/characters/icons8-batman-logo-500.png'),
+  require('../assets/characters/icons8-bill-cipher-500.png'),
+  require('../assets/characters/icons8-bmo-500.png'),
+  require('../assets/characters/icons8-brave-500.png'),
+  require('../assets/characters/icons8-c-3po-500.png'),
+  require('../assets/characters/icons8-catwoman-500.png'),
+  require('../assets/characters/icons8-chewbacca-500.png'),
+  require('../assets/characters/icons8-cyborg-500.png'),
+  require('../assets/characters/icons8-darth-vader-500.png'),
+  require('../assets/characters/icons8-dexter-500.png'),
+  require('../assets/characters/icons8-eggman-robotnik-500.png'),
+  require('../assets/characters/icons8-empire-500.png'),
+  require('../assets/characters/icons8-finn-500.png'),
+  require('../assets/characters/icons8-freddy-krueger-500.png'),
+  require('../assets/characters/icons8-green-arrow-dc-500.png'),
+  require('../assets/characters/icons8-green-lantern-500.png'),
+  require('../assets/characters/icons8-green-lantern-dc-500.png'),
+  require('../assets/characters/icons8-greyjoy-house-500.png'),
+  require('../assets/characters/icons8-harley-quinn-dc-500.png'),
+  require('../assets/characters/icons8-harley-quinn-suicide-squad-500.png'),
+  require('../assets/characters/icons8-harry-potter-500.png'),
+  require('../assets/characters/icons8-hatsune-miku-500.png'),
+  require('../assets/characters/icons8-hawkgirl-500.png'),
+  require('../assets/characters/icons8-hawkman-500.png'),
+  require('../assets/characters/icons8-house-lannister-500.png'),
+  require('../assets/characters/icons8-house-stark-500.png'),
+  require('../assets/characters/icons8-jake-500.png'),
+  require('../assets/characters/icons8-jason-voorhees-500.png'),
+  require('../assets/characters/icons8-john-wick-500.png'),
+  require('../assets/characters/icons8-joker-dc-500.png'),
+  require('../assets/characters/icons8-joker-suicide-squad-500.png'),
+  require('../assets/characters/icons8-knight-helmet-500.png'),
+  require('../assets/characters/icons8-lex-luthor-500.png'),
+  require('../assets/characters/icons8-lightsaber-500.png'),
+  require('../assets/characters/icons8-luigi-500.png'),
+  require('../assets/characters/icons8-luke-skywalker-500.png'),
+  require('../assets/characters/icons8-mando-500.png'),
+  require('../assets/characters/icons8-martell-house-500.png'),
+  require('../assets/characters/icons8-michael-myers-500.png'),
+  require('../assets/characters/icons8-michonne-500.png'),
+  require('../assets/characters/icons8-money-heist-dali-500.png'),
+  require('../assets/characters/icons8-monsters,-inc---sulley-500.png'),
+  require('../assets/characters/icons8-morpheus-500.png'),
+  require('../assets/characters/icons8-neo-500.png'),
+  require('../assets/characters/icons8-nightwing-500.png'),
+  require('../assets/characters/icons8-one-ring-500.png'),
+  require('../assets/characters/icons8-penguin-dc-500.png'),
+  require('../assets/characters/icons8-pennywise-500.png'),
+  require('../assets/characters/icons8-r2-d2-500.png'),
+  require('../assets/characters/icons8-rebel-500.png'),
+  require('../assets/characters/icons8-rick-sanchez-500.png'),
+  require('../assets/characters/icons8-scooby-doo-500.png'),
+  require('../assets/characters/icons8-sonic-the-hedgehog-500.png'),
+  require('../assets/characters/icons8-sons-of-anarchy-500.png'),
+  require('../assets/characters/icons8-stormtrooper-500.png'),
+  require('../assets/characters/icons8-superman-500.png'),
+  require('../assets/characters/icons8-superman-dc-500.png'),
+  require('../assets/characters/icons8-super-mario-500.png'),
+  require('../assets/characters/icons8-targaryen-house-500.png'),
+  require('../assets/characters/icons8-the-flash-head-500.png'),
+  require('../assets/characters/icons8-the-flash-sign-500.png'),
+  require('../assets/characters/icons8-toph-500.png'),
+  require('../assets/characters/icons8-trinity-500.png'),
+  require('../assets/characters/icons8-tully-house-500.png'),
+  require('../assets/characters/icons8-tyrell-house-500.png'),
+  require('../assets/characters/icons8-walter-white-500.png'),
+  require('../assets/characters/icons8-zatanna-500.png'),
 ];
+
 
 const levelGridSizes = [2, 4, 6, 6, 8];
 
@@ -38,8 +118,16 @@ export default function App() {
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.3, duration: 700, useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1, duration: 700, useNativeDriver: true }),
+        Animated.timing(pulseAnim, {
+          toValue: 1.3,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
       ])
     ).start();
     setTimeout(() => setLoading(false), 1500);
@@ -55,32 +143,59 @@ export default function App() {
 
     const totalCards = size * size;
     const numPairs = Math.floor(totalCards / 2);
-    const shuffledIcons = allIcons.sort(() => 0.5 - Math.random()).slice(0, numPairs);
+    
+    // Ensure we have enough unique icons by cycling through if needed
+    const iconPool = [];
+    while (iconPool.length < numPairs) {
+      iconPool.push(...allIcons);
+    }
+    
+    const shuffledIcons = iconPool
+      .sort(() => 0.5 - Math.random())
+      .slice(0, numPairs);
+    
     let pairedImages = [...shuffledIcons, ...shuffledIcons];
 
-    if (totalCards % 2 !== 0) pairedImages.push(allIcons[Math.floor(Math.random() * allIcons.length)]);
+    // Handle odd number of cards
+    if (totalCards % 2 !== 0) {
+      pairedImages.push(allIcons[Math.floor(Math.random() * allIcons.length)]);
+    }
 
-    pairedImages = pairedImages.map(image => {
-      const id = Math.random().toString();
-      flipAnimations[id] = new Animated.Value(0);
-      return { image, id };
-    }).sort(() => Math.random() - 0.5);
+    // Create card objects with unique IDs and initialize animations
+    pairedImages = pairedImages
+      .map(image => {
+        const id = Math.random().toString() + Date.now();
+        flipAnimations[id] = new Animated.Value(0);
+        return { image, id };
+      })
+      .sort(() => Math.random() - 0.5);
 
     setCards(pairedImages);
     setFlipped([]);
     setMatched([]);
     setMoves(0);
 
+    // Show preview animation
     setPreviewing(true);
     const previewIndexes = pairedImages.map((_, i) => i);
     setFlipped(previewIndexes);
+    
     previewIndexes.forEach(i => {
-      Animated.timing(flipAnimations[pairedImages[i].id], { toValue: 180, duration: 500, useNativeDriver: true }).start();
+      Animated.timing(flipAnimations[pairedImages[i].id], {
+        toValue: 180,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
     });
+    
     setTimeout(() => {
       setFlipped([]);
       previewIndexes.forEach(i => {
-        Animated.timing(flipAnimations[pairedImages[i].id], { toValue: 0, duration: 500, useNativeDriver: true }).start();
+        Animated.timing(flipAnimations[pairedImages[i].id], {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
       });
       setPreviewing(false);
     }, 2500);
@@ -94,22 +209,34 @@ export default function App() {
     setMoves(moves + 1);
 
     const card = cards[index];
-    Animated.timing(flipAnimations[card.id], { toValue: 180, duration: 500, useNativeDriver: true }).start();
+    Animated.timing(flipAnimations[card.id], {
+      toValue: 180,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
 
     if (newFlipped.length === 2) {
       const [firstCard, secondCard] = [cards[newFlipped[0]], cards[newFlipped[1]]];
       if (firstCard.image === secondCard.image) {
         setMatched([...matched, newFlipped[0], newFlipped[1]]);
         setTimeout(() => setFlipped([]), 500);
+        
+        // Check if all cards are matched
         if (matched.length + 2 >= cards.length) {
-          setCompletedLevels([...completedLevels, level]);
+          if (!completedLevels.includes(level)) {
+            setCompletedLevels([...completedLevels, level]);
+          }
           setTimeout(() => setShowModal(true), 500);
         }
       } else {
         setTimeout(() => {
           setFlipped([]);
           [firstCard.id, secondCard.id].forEach(id => {
-            Animated.timing(flipAnimations[id], { toValue: 0, duration: 500, useNativeDriver: true }).start();
+            Animated.timing(flipAnimations[id], {
+              toValue: 0,
+              duration: 500,
+              useNativeDriver: true,
+            }).start();
           });
         }, 1000);
       }
@@ -119,16 +246,32 @@ export default function App() {
   const toggleSidebar = () => {
     const toValue = sidebarVisible ? -width * 0.6 : 0;
     setSidebarVisible(!sidebarVisible);
-    Animated.timing(sidebarAnim, { toValue, duration: 300, useNativeDriver: true }).start();
+    Animated.timing(sidebarAnim, {
+      toValue,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
   };
 
   const nextLevel = () => {
     setShowModal(false);
-    if (level < levelGridSizes.length) setLevel(level + 1);
-    else alert('🎉 Congratulations! You completed all levels!');
+    if (level < levelGridSizes.length) {
+      setLevel(level + 1);
+    } else {
+      alert('🎉 Congratulations! You completed all levels!');
+    }
   };
 
-  const cardSize = (width - 40) / gridSize - 10;
+  // Calculate card size with better spacing for larger grids
+  const calculateCardSize = () => {
+    const containerWidth = Math.min(width - 40, 600);
+    const spacing = gridSize > 4 ? 4 : 8;
+    const totalSpacing = spacing * (gridSize + 1);
+    return (containerWidth - totalSpacing) / gridSize;
+  };
+
+  const cardSize = calculateCardSize();
+  const cardSpacing = gridSize > 4 ? 2 : 4;
 
   if (loading) {
     return (
@@ -159,12 +302,16 @@ export default function App() {
                   styles.levelButton,
                   { backgroundColor: completed ? '#28a745' : unlocked ? '#FF6EC7' : '#555' },
                 ]}
-                onPress={() => unlocked && setLevel(lvl)}
+                onPress={() => {
+                  if (unlocked) {
+                    setLevel(lvl);
+                    toggleSidebar();
+                  }
+                }}
                 disabled={!unlocked}
               >
                 <Text style={styles.levelText}>
-                  {completed ? '✅ ' : unlocked ? '' : '🔒 '}
-                  Level {lvl}
+                  {completed ? '✅ ' : unlocked ? '' : '🔒 '}Level {lvl}
                 </Text>
               </TouchableOpacity>
             );
@@ -180,30 +327,69 @@ export default function App() {
 
       {/* Main Title */}
       <Text style={styles.mainTitle}>Memory Match</Text>
-      <Text style={styles.title}>Level {level} / {levelGridSizes.length}</Text>
+      <Text style={styles.title}>
+        Level {level} ({levelGridSizes[level - 1]}x{levelGridSizes[level - 1]})
+      </Text>
 
       {/* Game grid */}
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}
+      >
         <Text style={styles.moves}>Moves: {moves}</Text>
-        <View style={[styles.grid, { width: width - 20 }]}>
+        <View style={[styles.gridContainer, { width: Math.min(width - 20, 600) }]}>
           {cards.map((card, index) => {
             const flipInterpolate = flipAnimations[card.id]?.interpolate({
               inputRange: [0, 180],
               outputRange: ['0deg', '180deg'],
             }) || '0deg';
 
+            const isFlipped = flipped.includes(index) || matched.includes(index);
+
             return (
               <TouchableOpacity
                 key={card.id}
-                style={[styles.card, { width: cardSize, height: cardSize }]}
+                style={[
+                  styles.card, 
+                  { 
+                    width: cardSize, 
+                    height: cardSize,
+                    margin: cardSpacing,
+                  }
+                ]}
                 onPress={() => handleFlip(index)}
                 activeOpacity={0.9}
               >
-                <Animated.View style={{ transform: [{ rotateY: flipInterpolate }] }}>
-                  {flipped.includes(index) || matched.includes(index) ? (
-                    <Image source={card.image} style={{ width: cardSize - 10, height: cardSize - 10 }} />
+                <Animated.View 
+                  style={[
+                    styles.cardInner, 
+                    { 
+                      width: cardSize,
+                      height: cardSize,
+                      transform: [{ rotateY: flipInterpolate }] 
+                    }
+                  ]}
+                >
+                  {isFlipped ? (
+                    <Image
+                      source={card.image}
+                      style={{ 
+                        width: cardSize - 8, 
+                        height: cardSize - 8, 
+                        resizeMode: 'contain' 
+                      }}
+                    />
                   ) : (
-                    <View style={[styles.cardBack, { width: cardSize - 10, height: cardSize - 10 }]} />
+                    <View 
+                      style={[
+                        styles.cardBack, 
+                        { 
+                          width: cardSize - 8, 
+                          height: cardSize - 8 
+                        }
+                      ]} 
+                    />
                   )}
                 </Animated.View>
               </TouchableOpacity>
@@ -212,13 +398,37 @@ export default function App() {
         </View>
       </ScrollView>
 
+{/* comment this out to disable debug panel */}
+      {/* Debug Panel
+      <View style={styles.devPanel}>
+        <Text style={styles.devTitle}>🧠 Debug Mode: Jump to Level</Text>
+        <View style={styles.devButtonsRow}>
+          {levelGridSizes.map((_, idx) => (
+            <TouchableOpacity
+              key={idx}
+              onPress={() => setLevel(idx + 1)}
+              style={[
+                styles.devButton,
+                { backgroundColor: level === idx + 1 ? '#FF6EC7' : '#444' },
+              ]}
+            >
+              <Text style={styles.devButtonText}>{idx + 1}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View> */}
+
       {/* Level Complete Modal */}
       <Modal visible={showModal} transparent={true} animationType="fade">
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Level {level} Complete! ˗ˏˋ ★ ˎˊ˗</Text>
             <Text style={styles.modalText}>Moves: {moves}</Text>
-            <Button title={level < levelGridSizes.length ? 'Next Level' : 'Finish'} onPress={nextLevel} color="#FF6EC7" />
+            <Button
+              title={level < levelGridSizes.length ? 'Next Level' : 'Finish'}
+              onPress={nextLevel}
+              color="#FF6EC7"
+            />
           </View>
         </View>
       </Modal>
@@ -255,24 +465,29 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
   scrollContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 50,
+    justifyContent: 'flex-start',
+    paddingBottom: 100,
   },
-  moves: {
-    fontSize: 20,
-    color: '#FF6EC7',
-    marginBottom: 10,
-  },
-  grid: {
+  gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    paddingBottom: 20,
   },
   card: {
-    margin: 5,
     borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardInner: {
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -281,6 +496,12 @@ const styles = StyleSheet.create({
     borderColor: '#FF6EC7',
     borderRadius: 8,
     backgroundColor: '#1B1D25',
+  },
+  moves: {
+    fontSize: 20,
+    color: '#FF6EC7',
+    marginBottom: 10,
+    marginTop: 10,
   },
   sidebar: {
     position: 'absolute',
@@ -326,9 +547,61 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
-  modalTitle: { fontSize: 24, color: '#FF6EC7', fontWeight: 'bold', marginBottom: 10 },
-  modalText: { fontSize: 18, color: '#FF6EC7', marginBottom: 20 },
-  splashContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0B0C10' },
-  logo: { width: 200, height: 200, resizeMode: 'contain', borderRadius: 100 },
+  modalTitle: {
+    fontSize: 24,
+    color: '#FF6EC7',
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    color: '#FF6EC7',
+    marginBottom: 20,
+  },
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0B0C10',
+  },
+  logo: { 
+    width: 200, 
+    height: 200, 
+    resizeMode: 'contain', 
+    borderRadius: 100 
+  },
+  devPanel: {
+    position: 'absolute',
+    bottom: 20,
+    backgroundColor: '#1B1D25',
+    borderRadius: 10,
+    padding: 10,
+    width: '90%',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FF6EC7',
+    opacity: 0.95,
+  },
+  devTitle: {
+    color: '#FF6EC7',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  devButtonsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  devButton: {
+    padding: 10,
+    borderRadius: 6,
+    marginHorizontal: 4,
+    minWidth: 40,
+    alignItems: 'center',
+  },
+  devButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
-
